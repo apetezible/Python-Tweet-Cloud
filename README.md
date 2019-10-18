@@ -1,2 +1,5 @@
-# Python-Tweet-Cloud
- As part of this project, I will write a program that processes a list of Tweets and generates a word cloud from them.
+# Python Tweet-Cloud
+
+## Abstract
+Como parte de este proyecto, Escribiré un programa que procese una lista de trinos de Twitter y genere una
+nube de palabras a partir de ellos.
