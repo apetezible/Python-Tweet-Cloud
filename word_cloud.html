@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="d3.layout.cloud.js"></script>
+<head>
+    <title>Nube de Palabras</title>
+</head>
+<style>
+    body {
+        font-family:"Lucida Grande","Droid Sans",Arial,Helvetica,sans-serif;
+    }
+    .legend {
+        border: 1px solid #555555;
+        border-radius: 5px 5px 5px 5px;
+        font-size: 0.8em;
+        margin: 10px;
+        padding: 8px;
+    }
+    .bld {
+        font-weight: bold;
+    }
+</style>
+<body>
+
+</body>
+<script>
+
+    var frequency_list = [
+{text: 'china', size:14.7},{text: 'sending', size:0.8999999999999999},{text: 'envoy', size:0.3},{text: 'delegation', size:2.1},{text: 'north', size:20.7},{text: 'korea', size:18.599999999999998},{text: 'big', size:42.9},{text: 'move', size:3.9},{text: 'well', size:10.5},{text: 'see', size:14.7},{text: 'happens', size:0.8999999999999999},{text: 'release', size:0.8999999999999999},{text: 'possible', size:3.9},{text: 'great', size:145.2},{text: 'life', size:3.0},{text: 'careful', size:1.5},{text: 'many', size:32.1},{text: 'pitfalls', size:0.3},{text: 'long', size:11.7},{text: 'winding', size:0.3},{text: 'road', size:0.8999999999999999},{text: 'three', size:2.1},{text: 'ucla', size:0.6},{text: 'basketball', size:0.6},{text: 'players', size:5.3999999999999995},{text: 'say', size:9.0},{text: 'youre', size:1.5},{text: 'welcome', size:12.9},{text: 'go', size:11.7},{text: 'give', size:7.199999999999999},{text: 'thank', size:57.9},{text: 'president', size:43.5},{text: 'xi', size:4.5},{text: 'jinping', size:1.5},{text: 'made', size:19.5},{text: 'vote', size:21.9},{text: 'tomorrow', size:12.0},{text: 'house', size:19.8},{text: 'tax', size:28.799999999999997},{text: 'cuts', size:13.2},{text: 'getting', size:12.299999999999999},{text: 'close', size:4.2},{text: 'democrats', size:23.099999999999998},{text: 'fighting', size:4.2},{text: 'massive', size:10.799999999999999},{text: 'middle', size:4.5},{text: 'class', size:4.5},{text: 'business', size:10.2},{text: 'jobs', size:36.3},{text: 'reason', size:3.3},{text: 'obstruction', size:2.4},{text: 'delay', size:1.7999999999999998},{text: 'actually', size:3.5999999999999996},{text: 'hard', size:18.9},{text: 'believe', size:7.199999999999999},{text: 'naive', size:0.3},{text: 'dumb', size:0.8999999999999999},{text: 'failing', size:11.1},{text: '@nytimes', size:10.799999999999999},{text: 'comes', size:3.0},{text: 'foreign', size:3.0},{text: 'policyweak', size:0.3},{text: 'ineffective', size:0.3},{text: 'realize', size:0.8999999999999999},{text: 'relationships', size:0.6},{text: 'good', size:21.3},{text: 'thing', size:7.199999999999999},{text: 'bad', size:19.5},{text: 'us', size:64.5},{text: 'respected', size:2.4},{text: 'watch', size:13.799999999999999},{text: 'trade', size:11.7},{text: 'hates', size:0.6},{text: 'fact', size:5.3999999999999995},{text: 'developed', size:0.3},{text: 'relationship', size:3.0},{text: 'world', size:13.2},{text: 'leaders', size:9.0},{text: 'like', size:15.899999999999999},{text: 'think', size:4.5},{text: 'trump', size:41.1},{text: 'headed', size:0.6},{text: 'years', size:22.8},{text: 'jail', size:1.2},{text: 'httpstcoeqmwvxbim', size:0.3},{text: 'working', size:22.2},{text: 'httpstcotmndnpbjm', size:0.3},{text: 'philippines', size:2.4},{text: 'forced', size:2.4},{text: '@cnn', size:7.5},{text: 'done', size:12.6},{text: 'months', size:5.7},{text: 'realized', size:0.3},{text: 'fake', size:44.4},{text: 'loser', size:1.2},{text: '@foxandfriends', size:26.4},{text: 'showing', size:1.5},{text: 'much', size:27.0},{text: 'successful', size:3.0},{text: 'trip', size:3.5999999999999996},{text: 'none', size: 0}
+
+          ];
+
+
+    var color = d3.scale.linear()
+            .domain([0,1,2,3,4,5,6,10,15,20,100])
+            .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+    d3.layout.cloud().size([850, 300])
+            .words(frequency_list)
+            .rotate(0)
+            .fontSize(function(d) { return d.size; })
+            .on("end", draw)
+            .start();
+
+    function draw(words) {
+        d3.select("body").append("svg")
+                .attr("width", 900)
+                .attr("height", 350)
+                .attr("class", "wordcloud")
+                .append("g")
+                // without the transform, words words would get cutoff to the left and top, they would
+                // appear outside of the SVG area
+                .attr("transform", "translate(370,200)")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function(d) { return d.size + "px"; })
+                .style("fill", function(d, i) { return color(i); })
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function(d) { return d.text; });
+    }
+</script>
+
+<div style="width: 40%;">
+    <div class="legend">
+        Las palabras de uso común son más grandes y ligeramente claras. Las palabras menos comunes son más pequeñas y más oscuras.
+    </div>
+
+</div>
+
+
+</html>
